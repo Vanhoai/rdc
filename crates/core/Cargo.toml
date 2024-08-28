@@ -1,0 +1,10 @@
+[package]
+name = "core"
+edition = "2021"
+version.workspace = true
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+
+[lints]
+workspace = true

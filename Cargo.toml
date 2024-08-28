@@ -2,8 +2,10 @@
 version = "1.0.0"
 
 [workspace]
-members = [
+members = [ 
+  "crates/apis",
   "crates/app",
+  "crates/core",
 ]
 resolver = "2"
 
@@ -11,3 +13,4 @@ resolver = "2"
 unsafe_code = "forbid"
 
 [workspace.dependencies]
+serde = "1.0.209"
