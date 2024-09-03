@@ -1,4 +1,5 @@
 use clap::{Args, Parser, Subcommand};
+use std::process::Command;
 
 mod api;
 
@@ -13,10 +14,22 @@ pub struct RdcCli {
     command: Option<Commands>,
 }
 
+/**
+ * Commands:
+ * - New project: cargo rdc new <project-name>
+ * - Add primary adapters: cargo rdc adapter <feature-name>
+ */
 #[derive(Subcommand)]
 enum Commands {
     Reverse(Reverse),
     Inspect(Inspect),
+    New(New),
+}
+
+#[derive(Args)]
+struct New {
+    #[arg(value_name = "PROJECT_NAME")]
+    project_name: String,
 }
 
 #[derive(Args)]
@@ -58,6 +71,28 @@ fn main() {
             None => {
                 println!("Please provide a string to inspect");
             },
+        },
+        Some(Commands::New(name)) => {
+            // if let Err(e) = Command::new("mkdir").arg(&name.project_name).status() {
+            //     eprintln!("Failed to create directory: {}", e);
+            //     return;
+            // }
+
+            // run cargo new <name>
+            if let Err(e) = Command::new("cargo").args(["new", &name.project_name]).status() {
+                eprintln!("Failed to create new project: {}", e);
+                return;
+            }
+
+            // Running additional commands inside the new project directory
+            // if let Err(e) = Command::new("sh")
+            //     .arg("-c")
+            //     .arg(format!("echo 'Initialized project: {}' > {}/README.md", name.project_name, name.project_name))
+            //     .status()
+            // {
+            //     eprintln!("Failed to initialize project files: {}", e);
+            // }
+            println!("Creating new project: {}", name.project_name);
         },
         None => {},
     }

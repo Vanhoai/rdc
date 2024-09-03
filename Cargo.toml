@@ -5,7 +5,7 @@ version = "1.0.0"
 members = [ 
   "crates/apis",
   "crates/app",
-  "crates/core",
+  "crates/core", "example",
 ]
 resolver = "2"
 
